@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mohammed Fayis — Embedded Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0d0d0d; --surface: #161616; --surface2: #1e1e1e; --border: #2a2a2a;
+    --accent: #00e5a0; --accent2: #0af; --text: #f0ede8; --muted: #888;
+    --mono: 'Space Mono', monospace; --sans: 'Syne', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.6; min-height: 100vh; }
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(13,13,13,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border); padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between; height: 56px;
+  }
+  .nav-logo { font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: 0.05em; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: 13px; color: var(--muted); text-decoration: none; font-family: var(--mono); transition: color 0.2s; letter-spacing: 0.03em; }
+  .nav-links a:hover { color: var(--accent); }
+  .hero { padding: 5rem 2rem 4rem; max-width: 900px; margin: 0 auto; }
+  .hero-tag { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 8px; }
+  .hero-tag::before { content: ''; display: inline-block; width: 20px; height: 1px; background: var(--accent); }
+  h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+  h1 span { color: var(--accent); }
+  .hero-desc { font-size: 1.05rem; color: #aaa; max-width: 540px; line-height: 1.7; margin-bottom: 2.5rem; font-weight: 400; }
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary { background: var(--accent); color: #0d0d0d; border: none; padding: 0.75rem 1.75rem; font-family: var(--mono); font-size: 13px; font-weight: 700; cursor: pointer; letter-spacing: 0.03em; text-decoration: none; display: inline-block; transition: opacity 0.2s, transform 0.15s; }
+  .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+  .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); padding: 0.75rem 1.75rem; font-family: var(--mono); font-size: 13px; cursor: pointer; letter-spacing: 0.03em; text-decoration: none; display: inline-block; transition: border-color 0.2s, color 0.2s; }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .stats-bar { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 1.5rem 2rem; display: flex; gap: 3rem; max-width: 900px; margin: 0 auto; flex-wrap: wrap; }
+  .stat-number { font-family: var(--mono); font-size: 1.6rem; font-weight: 700; color: var(--accent); display: block; line-height: 1; margin-bottom: 4px; }
+  .stat-label { font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+  section { padding: 4rem 2rem; max-width: 900px; margin: 0 auto; }
+  .section-label { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 8px; }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  h2 { font-size: 1.8rem; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 2.5rem; }
+  .exp-item { border-left: 2px solid var(--border); padding-left: 1.5rem; margin-bottom: 2.5rem; position: relative; }
+  .exp-item::before { content: ''; position: absolute; left: -5px; top: 6px; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; }
+  .exp-meta { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.4rem; }
+  .exp-role { font-size: 1.05rem; font-weight: 700; }
+  .exp-period { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.05em; }
+  .exp-company { font-size: 0.9rem; color: var(--accent2); margin-bottom: 1rem; font-weight: 400; }
+  .exp-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .exp-list li { font-size: 0.92rem; color: #aaa; padding-left: 1.25rem; position: relative; line-height: 1.6; }
+  .exp-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-size: 0.75rem; top: 3px; }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-bottom: 2rem; }
+  .skill-cell { background: var(--surface); padding: 1.25rem; }
+  .skill-cell-title { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.75rem; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-family: var(--mono); font-size: 11px; padding: 4px 10px; background: var(--surface2); color: var(--text); letter-spacing: 0.03em; border: 1px solid var(--border); }
+  .tag.accent { border-color: var(--accent); color: var(--accent); }
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+  .project-card { background: var(--surface); border: 1px solid var(--border); padding: 1.5rem; transition: border-color 0.2s, transform 0.2s; position: relative; overflow: hidden; }
+  .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent); transform: scaleX(0); transition: transform 0.3s; }
+  .project-card:hover { border-color: #444; transform: translateY(-3px); }
+  .project-card:hover::before { transform: scaleX(1); }
+  .project-icon { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 0.75rem; display: block; }
+  .project-name { font-size: 1rem; font-weight: 700; margin-bottom: 0.6rem; line-height: 1.3; }
+  .project-desc { font-size: 0.85rem; color: #888; line-height: 1.6; margin-bottom: 1rem; }
+  .project-stack { display: flex; flex-wrap: wrap; gap: 5px; }
+  .project-stack span { font-family: var(--mono); font-size: 10px; padding: 3px 8px; background: var(--bg); border: 1px solid var(--border); color: var(--muted); letter-spacing: 0.03em; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .contact-item { background: var(--surface); border: 1px solid var(--border); padding: 1.25rem; display: flex; align-items: center; gap: 1rem; text-decoration: none; color: var(--text); transition: border-color 0.2s; }
+  .contact-item:hover { border-color: var(--accent); }
+  .contact-ico { font-family: var(--mono); font-size: 18px; color: var(--accent); min-width: 28px; }
+  .contact-type { font-size: 10px; font-family: var(--mono); color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 3px; }
+  .contact-val { font-size: 0.9rem; font-weight: 600; }
+  .edu-item { background: var(--surface); border: 1px solid var(--border); padding: 1.5rem; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; }
+  .edu-degree { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+  .edu-school { font-size: 0.9rem; color: var(--accent2); }
+  .edu-meta { text-align: right; }
+  .edu-grade { font-family: var(--mono); font-size: 1.2rem; font-weight: 700; color: var(--accent); }
+  .edu-year { font-size: 11px; color: var(--muted); font-family: var(--mono); }
+  footer { border-top: 1px solid var(--border); padding: 2rem; text-align: center; font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.05em; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  .hero > * { animation: fadeUp 0.6s ease forwards; opacity: 0; }
+  .hero > *:nth-child(1) { animation-delay: 0.05s; }
+  .hero > *:nth-child(2) { animation-delay: 0.15s; }
+  .hero > *:nth-child(3) { animation-delay: 0.25s; }
+  .hero > *:nth-child(4) { animation-delay: 0.35s; }
+  @media (max-width: 600px) {
+    h1 { font-size: 2.2rem; } .stats-bar { gap: 1.5rem; }
+    .contact-grid { grid-template-columns: 1fr; } nav { padding: 0 1rem; } .nav-links { gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">MF.dev</span>
+  <ul class="nav-links">
+    <li><a href="#about">about</a></li>
+    <li><a href="#experience">work</a></li>
+    <li><a href="#projects">projects</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+</nav>
+
+<div class="hero" id="about">
+  <p class="hero-tag">Embedded Software Engineer</p>
+  <h1>Mohammed<br><span>Fayis</span></h1>
+  <p class="hero-desc">Building firmware that powers smart metering infrastructure. Specialized in OpenCPU-based IoT devices, 4G LTE connectivity, and DLMS protocol — where hardware meets code.</p>
+  <div class="hero-ctas">
+    <a class="btn-primary" href="mailto:mohdfayis2017@gmail.com">Get in touch</a>
+    <a class="btn-ghost" href="https://github.com/fayisfy07" target="_blank">github.com/fayisfy07</a>
+  </div>
+</div>
+
+<div class="stats-bar">
+  <div class="stat-item"><span class="stat-number">1.5+</span><span class="stat-label">Years experience</span></div>
+  <div class="stat-item"><span class="stat-number">30+</span><span class="stat-label">Bugs resolved</span></div>
+  <div class="stat-item"><span class="stat-number">40%</span><span class="stat-label">Regression time cut</span></div>
+  <div class="stat-item"><span class="stat-number">50+</span><span class="stat-label">Stability issues fixed</span></div>
+</div>
+
+<section id="experience">
+  <p class="section-label">Experience</p>
+  <h2>Work history</h2>
+  <div class="exp-item">
+    <div class="exp-meta">
+      <span class="exp-role">Associate Embedded Software Development Engineer</span>
+      <span class="exp-period">Mar 2025 – Present</span>
+    </div>
+    <p class="exp-company">Probus Smart Things Pvt. Ltd. — Noida, India</p>
+    <ul class="exp-list">
+      <li>Developed OpenCPU-based firmware on Quectel EC200 for TCP/IP, MQTT, and DLMS-based smart meter communication.</li>
+      <li>Built FOTA/OTA update pipeline enabling remote firmware upgrades without on-site intervention.</li>
+      <li>Validated and optimized 4G + BLE smart meter firmware — resolved 30+ critical bugs across UART, network, and BLE layers.</li>
+      <li>Built Python/SQL automated test scripts, fixing 50+ stability issues and reducing manual regression time by 40%.</li>
+      <li>Performed protocol testing (DLMS, MQTT) and log-based debugging using CoolWatcher, Gurux, and Aboot.</li>
+    </ul>
+  </div>
+  <div class="exp-item">
+    <div class="exp-meta">
+      <span class="exp-role">Embedded Systems Trainee</span>
+      <span class="exp-period">Sep 2023 – Aug 2024</span>
+    </div>
+    <p class="exp-company">Emertxe Information Technologies — Bangalore, India</p>
+    <ul class="exp-list">
+      <li>Completed intensive training in Embedded C, STM32, FreeRTOS, and hardware-software interfacing.</li>
+      <li>Built 3 firmware projects from scratch, including system drivers and peripheral communication modules.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="skills">
+  <p class="section-label">Skills</p>
+  <h2>Technical stack</h2>
+  <div class="skills-grid">
+    <div class="skill-cell">
+      <p class="skill-cell-title">Languages</p>
+      <div class="skill-tags">
+        <span class="tag accent">Embedded C</span><span class="tag accent">C++</span>
+        <span class="tag">Python</span><span class="tag">SQL</span><span class="tag">Shell</span>
+      </div>
+    </div>
+    <div class="skill-cell">
+      <p class="skill-cell-title">Hardware / Platforms</p>
+      <div class="skill-tags">
+        <span class="tag accent">Quectel EC200</span><span class="tag accent">STM32</span>
+        <span class="tag">PIC18F4580</span><span class="tag">FreeRTOS</span>
+      </div>
+    </div>
+    <div class="skill-cell">
+      <p class="skill-cell-title">Protocols</p>
+      <div class="skill-tags">
+        <span class="tag accent">DLMS</span><span class="tag accent">MQTT</span>
+        <span class="tag">TCP/IP</span><span class="tag">UART</span><span class="tag">I2C</span><span class="tag">SPI</span><span class="tag">BLE</span>
+      </div>
+    </div>
+    <div class="skill-cell">
+      <p class="skill-cell-title">Tools & Debugging</p>
+      <div class="skill-tags">
+        <span class="tag">CoolWatcher</span><span class="tag">Gurux</span>
+        <span class="tag">QFlash</span><span class="tag">JTAG/SWD</span><span class="tag">Git</span><span class="tag">Postman</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <p class="section-label">Projects</p>
+  <h2>Things I've built</h2>
+  <div class="projects-grid">
+    <div class="project-card">
+      <span class="project-icon">01 / IoT</span>
+      <p class="project-name">4G OpenCPU Smart Meter Firmware</p>
+      <p class="project-desc">Unified OpenCPU-based firmware for 4G NIC and AMR smart meter applications with FOTA, TCP/IP connectivity, and secure server communication.</p>
+      <div class="project-stack"><span>Quectel EC200</span><span>DLMS</span><span>FOTA</span><span>TCP/IP</span><span>MQTT</span></div>
+    </div>
+    <div class="project-card">
+      <span class="project-icon">02 / Security</span>
+      <p class="project-name">LSB Image Steganography</p>
+      <p class="project-desc">Secure image-based data hiding using LSB encoding with key-based encryption, implemented in C on Linux.</p>
+      <div class="project-stack"><span>C</span><span>GCC</span><span>Linux</span><span>Cryptography</span></div>
+    </div>
+    <div class="project-card">
+      <span class="project-icon">03 / Embedded</span>
+      <p class="project-name">Car Black Box</p>
+      <p class="project-desc">Vehicle data logger on PIC18F4580 capturing real-time speed, ignition, and event data via ADC and RTC, storing timestamped logs in EEPROM over I2C.</p>
+      <div class="project-stack"><span>Embedded C</span><span>UART</span><span>I2C</span><span>ADC</span><span>MPLAB</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <p class="section-label">Education</p>
+  <h2>Academic background</h2>
+  <div style="display: flex; flex-direction: column; gap: 1rem;">
+    <div class="edu-item">
+      <div><p class="edu-degree">B.Tech — Electronics and Communication Engineering</p><p class="edu-school">Aligarh Muslim University</p></div>
+      <div class="edu-meta"><p class="edu-grade">74.00%</p><p class="edu-year">2019 – 2023</p></div>
+    </div>
+    <div class="edu-item">
+      <div><p class="edu-degree">Senior Secondary (STEM)</p><p class="edu-school">AKM Higher Secondary School, Kerala</p></div>
+      <div class="edu-meta"><p class="edu-grade">93.33%</p><p class="edu-year">2016 – 2018</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <p class="section-label">Contact</p>
+  <h2>Let's connect</h2>
+  <div class="contact-grid">
+    <a class="contact-item" href="mailto:mohdfayis2017@gmail.com">
+      <span class="contact-ico">@</span>
+      <div class="contact-info"><p class="contact-type">Email</p><p class="contact-val">mohdfayis2017@gmail.com</p></div>
+    </a>
+    <a class="contact-item" href="https://linkedin.com/in/mohammed-fayis2000" target="_blank">
+      <span class="contact-ico">in</span>
+      <div class="contact-info"><p class="contact-type">LinkedIn</p><p class="contact-val">mohammed-fayis2000</p></div>
+    </a>
+    <a class="contact-item" href="https://github.com/fayisfy07" target="_blank">
+      <span class="contact-ico">&lt;/&gt;</span>
+      <div class="contact-info"><p class="contact-type">GitHub</p><p class="contact-val">github.com/fayisfy07</p></div>
+    </a>
+    <a class="contact-item" href="tel:+919995015370">
+      <span class="contact-ico">☏</span>
+      <div class="contact-info"><p class="contact-type">Phone</p><p class="contact-val">+91 99950 15370</p></div>
+    </a>
+  </div>
+</section>
+
+<footer>Mohammed Fayis · Embedded Software Engineer · Kerala, India · Built with precision</footer>
+
+</body>
+</html>
